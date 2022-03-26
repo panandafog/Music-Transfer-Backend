@@ -44,7 +44,7 @@ services:
     ports:
       - "5433:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U MT_pguser -d MT_db"]
+      test: ["CMD-SHELL", "pg_isready -U MT_pguser -d MT_db_test"]
       interval: 10s
       timeout: 5s
       retries: 5
