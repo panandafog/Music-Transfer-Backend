@@ -28,7 +28,7 @@ public class DummiesController {
     }
 
     @PostMapping(value = "/save")
-    public String addOrUpdateGood(@RequestBody Dummy dummy) {
+    public String addOrUpdateDummy(@RequestBody Dummy dummy) {
         try {
             service.save(dummy);
         } catch (DataIntegrityViolationException ex) {
