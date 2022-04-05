@@ -1,8 +1,5 @@
 package com.panandafog.mt_server.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;

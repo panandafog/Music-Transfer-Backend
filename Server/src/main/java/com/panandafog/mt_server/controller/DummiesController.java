@@ -18,11 +18,6 @@ public class DummiesController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Dummy> getAllDummies() {
         List<Dummy> tmp = null;
-//        try {
-//            tmp = service.getAll();
-//        } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
-//        }
         tmp = service.getAll();
         return tmp;
     }
