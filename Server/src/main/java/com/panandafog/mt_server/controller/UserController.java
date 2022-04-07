@@ -34,10 +34,28 @@ public class UserController {
     return userService.signup(modelMapper.map(user, AppUser.class), request);
   }
 
+  @GetMapping("/resetpassword")
+  public String resetPassword(@RequestParam String username, HttpServletRequest request) {
+    return userService.resetPassword(username, request);
+  }
+
   @GetMapping("/confirmsignup")
-  public String confirm(@RequestParam String token) {
+  public String confirmSignup(@RequestParam String token) {
     try {
       return userService.confirmSignup(token);
+    } catch (Exception ex) {
+      return ex.getMessage();
+    }
+  }
+
+  @GetMapping("/confirmpasswordreset")
+  public String confirmPasswordReset(
+          @RequestParam String username,
+          @RequestParam String newPassword,
+          @RequestParam String token
+  ) {
+    try {
+      return userService.confirmPasswordReset(username, newPassword, token);
     } catch (Exception ex) {
       return ex.getMessage();
     }
