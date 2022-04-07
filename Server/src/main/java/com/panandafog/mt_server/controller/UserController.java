@@ -7,6 +7,7 @@ import com.panandafog.mt_server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,8 @@ public class UserController {
   private final UserService userService;
   @Autowired
   private final ModelMapper modelMapper;
+  @Autowired
+  ApplicationEventPublisher eventPublisher;
 
   @PostMapping("/signin")
   public String login(@RequestParam String username, @RequestParam String password) {
@@ -27,8 +30,17 @@ public class UserController {
   }
 
   @PostMapping("/signup")
-  public String signup(@RequestBody UserDataDTO user) {
-    return userService.signup(modelMapper.map(user, AppUser.class));
+  public String signup(@RequestBody UserDataDTO user, HttpServletRequest request) {
+    return userService.signup(modelMapper.map(user, AppUser.class), request);
+  }
+
+  @GetMapping("/confirmsignup")
+  public String confirm(@RequestParam String token) {
+    try {
+      return userService.confirmSignup(token);
+    } catch (Exception ex) {
+      return ex.getMessage();
+    }
   }
 
   @DeleteMapping(value = "/{username}")
