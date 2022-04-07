@@ -120,6 +120,7 @@ public class UserService {
 
     appUser.setEnabled(true);
     userRepository.save(appUser);
+    verificationTokenRepository.deleteAllByUserId(appUser.getId());
     return "Successful";
   }
 
@@ -143,6 +144,8 @@ public class UserService {
     appUser.setPassword(passwordEncoder.encode(newPassword));
     appUser.setEnabled(true);
     userRepository.save(appUser);
+    passwordResetTokenRepository.deleteAllByUserId(appUser.getId());
+    verificationTokenRepository.deleteAllByUserId(appUser.getId());
     return "Successful";
   }
 

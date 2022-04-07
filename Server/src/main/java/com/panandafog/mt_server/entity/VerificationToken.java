@@ -21,9 +21,7 @@ public class VerificationToken {
 
     private Date expiryDate;
 
-    public VerificationToken() {
-        System.out.println("Initialized VerificationToken with wrong constructor!");
-    }
+    public VerificationToken() { }
 
     private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();
