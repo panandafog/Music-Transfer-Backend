@@ -42,38 +42,20 @@ public class UserService {
       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
       return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getAppUserRoles());
     } catch (AuthenticationException e) {
+      System.out.println("Invalid username/password supplied");
       throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
 
   public String signup(AppUser appUser, HttpServletRequest request) {
-    System.out.println("signing up start");
-    System.out.println(appUser.getUsername());
     if (!userRepository.existsByUsername(appUser.getUsername())) {
-      System.out.println("New user detected");
-
       appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
       userRepository.save(appUser);
 
       String appUrl = "/users";
-
-      System.out.println("appUrl for new user:");
-      System.out.println("\"" + appUrl + "\"");
-      System.out.println("Publishing event...");
-
-      try {
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUser, request.getLocale(), appUrl));
-      }  catch (NoSuchMessageException ex) {
-        System.out.println("NoSuchMessageException: " + ex.getMessage());
-      }
-      System.out.println("Publish complete");
-
-//      return jwtTokenProvider.createToken(appUser.getUsername(), appUser.getAppUserRoles());
-      System.out.println("Successful signup");
-
+      eventPublisher.publishEvent(new OnRegistrationCompleteEvent(appUser, request.getLocale(), appUrl));
       return "Successful";
     } else {
-      System.out.println("Username is already in use");
       throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
@@ -81,25 +63,10 @@ public class UserService {
   public String resetPassword(String username, HttpServletRequest request) {
     if (userRepository.existsByUsername(username)) {
       AppUser appUser = userRepository.findByUsername(username);
-      System.out.println("Password reset");
-
       String appUrl = "/users";
-
-      System.out.println("appUrl for new user:");
-      System.out.println("\"" + appUrl + "\"");
-      System.out.println("Publishing event...");
-
-      try {
-        eventPublisher.publishEvent(new OnPasswordResetEvent(appUser, request.getLocale(), appUrl));
-      }  catch (NoSuchMessageException ex) {
-        System.out.println("NoSuchMessageException: " + ex.getMessage());
-      }
-      System.out.println("Password reset publish complete");
-
-//      return jwtTokenProvider.createToken(appUser.getUsername(), appUser.getAppUserRoles());
+      eventPublisher.publishEvent(new OnPasswordResetEvent(appUser, request.getLocale(), appUrl));
       return "Successful";
     } else {
-      System.out.println("Username does not registered");
       throw new CustomException("Username does not registered", HttpStatus.UNPROCESSABLE_ENTITY);
     }
   }
@@ -127,7 +94,6 @@ public class UserService {
   public String confirmPasswordReset(String username, String newPassword, String token) {
     PasswordResetToken verificationToken = getPasswordResetToken(token);
     if (verificationToken == null) {
-      System.out.println("Invalid token");
       throw new CustomException("Invalid token", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -137,7 +103,6 @@ public class UserService {
     }
     Calendar cal = Calendar.getInstance();
     if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-      System.out.println("Token expired");
       throw new CustomException("Token expired", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

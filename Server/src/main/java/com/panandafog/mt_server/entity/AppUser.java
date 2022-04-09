@@ -25,9 +25,6 @@ public class AppUser {
   @ElementCollection(fetch = FetchType.EAGER)
   private List<AppUserRole> appUserRoles;
 
-  @Column(name = "verification_code", length = 64)
-  private String verificationCode;
-
   @Column(name = "enabled")
   private boolean enabled;
 

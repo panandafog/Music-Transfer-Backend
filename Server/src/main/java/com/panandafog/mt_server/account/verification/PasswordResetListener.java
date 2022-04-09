@@ -29,9 +29,7 @@ public class PasswordResetListener implements ApplicationListener<OnPasswordRese
     }
 
     private void sendPasswordResetEmail(OnPasswordResetEvent event) {
-        System.out.println("Registration confirmation initiated");
         AppUser user = event.getUser();
-        System.out.println("user to confirm: " + user.getEmail());
         String token = UUID.randomUUID().toString();
         service.createPasswordResetToken(user, token);
 
@@ -43,8 +41,6 @@ public class PasswordResetListener implements ApplicationListener<OnPasswordRese
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setText(message + " " + token);
-        System.out.println("Sending email to " + user.getEmail());
         mailSender.send(email);
-        System.out.println("Email sent");
     }
 }
