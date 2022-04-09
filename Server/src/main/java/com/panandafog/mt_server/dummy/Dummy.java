@@ -1,4 +1,4 @@
-package com.panandafog.mt_server.entity;
+package com.panandafog.mt_server.dummy;
 
 import javax.persistence.*;
 

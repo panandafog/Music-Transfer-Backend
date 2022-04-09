@@ -1,6 +1,6 @@
 package com.panandafog.mt_server.account.verification;
 
-import com.panandafog.mt_server.entity.AppUser;
+import com.panandafog.mt_server.authorisation.AppUser;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;

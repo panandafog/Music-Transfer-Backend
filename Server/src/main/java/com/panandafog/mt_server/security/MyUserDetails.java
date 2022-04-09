@@ -1,7 +1,7 @@
 package com.panandafog.mt_server.security;
 
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.repository.UserRepository;
+import com.panandafog.mt_server.authorisation.AppUser;
+import com.panandafog.mt_server.authorisation.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.userdetails.UserDetails;

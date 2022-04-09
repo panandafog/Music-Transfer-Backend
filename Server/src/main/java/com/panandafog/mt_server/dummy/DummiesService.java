@@ -1,7 +1,5 @@
-package com.panandafog.mt_server.service;
+package com.panandafog.mt_server.dummy;
 
-import com.panandafog.mt_server.entity.Dummy;
-import com.panandafog.mt_server.repository.DummiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

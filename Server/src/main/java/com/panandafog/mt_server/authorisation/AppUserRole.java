@@ -1,4 +1,4 @@
-package com.panandafog.mt_server.entity;
+package com.panandafog.mt_server.authorisation;
 
 import org.springframework.security.core.GrantedAuthority;
 

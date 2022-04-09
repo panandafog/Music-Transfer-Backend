@@ -1,8 +1,6 @@
-package com.panandafog.mt_server.repository;
+package com.panandafog.mt_server.authorisation.tokens;
 
-import java.util.List;
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.entity.PasswordResetToken;
+import com.panandafog.mt_server.authorisation.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

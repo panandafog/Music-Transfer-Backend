@@ -1,6 +1,6 @@
 package com.panandafog.mt_server.security;
 
-import com.panandafog.mt_server.entity.AppUserRole;
+import com.panandafog.mt_server.authorisation.AppUserRole;
 import com.panandafog.mt_server.exceptions.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

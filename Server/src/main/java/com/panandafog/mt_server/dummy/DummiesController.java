@@ -1,7 +1,5 @@
-package com.panandafog.mt_server.controller;
+package com.panandafog.mt_server.dummy;
 
-import com.panandafog.mt_server.entity.Dummy;
-import com.panandafog.mt_server.service.DummiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;

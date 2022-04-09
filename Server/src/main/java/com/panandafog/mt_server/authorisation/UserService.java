@@ -1,19 +1,16 @@
-package com.panandafog.mt_server.service;
+package com.panandafog.mt_server.authorisation;
 
 import com.panandafog.mt_server.account.verification.OnPasswordResetEvent;
 import com.panandafog.mt_server.account.verification.OnRegistrationCompleteEvent;
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.entity.PasswordResetToken;
-import com.panandafog.mt_server.entity.VerificationToken;
+import com.panandafog.mt_server.authorisation.tokens.PasswordResetToken;
+import com.panandafog.mt_server.authorisation.tokens.VerificationToken;
 import com.panandafog.mt_server.exceptions.CustomException;
-import com.panandafog.mt_server.repository.PasswordResetTokenRepository;
-import com.panandafog.mt_server.repository.UserRepository;
-import com.panandafog.mt_server.repository.VerificationTokenRepository;
+import com.panandafog.mt_server.authorisation.tokens.PasswordResetTokenRepository;
+import com.panandafog.mt_server.authorisation.tokens.VerificationTokenRepository;
 import com.panandafog.mt_server.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

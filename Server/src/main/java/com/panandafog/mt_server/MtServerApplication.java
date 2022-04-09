@@ -1,17 +1,12 @@
 package com.panandafog.mt_server;
 
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.entity.AppUserRole;
-import com.panandafog.mt_server.service.UserService;
+import com.panandafog.mt_server.authorisation.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @SpringBootApplication
 @RequiredArgsConstructor

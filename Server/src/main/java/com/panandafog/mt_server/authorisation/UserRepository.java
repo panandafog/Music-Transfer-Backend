@@ -1,6 +1,5 @@
-package com.panandafog.mt_server.repository;
+package com.panandafog.mt_server.authorisation;
 
-import com.panandafog.mt_server.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;

@@ -1,6 +1,6 @@
-package com.panandafog.mt_server.repository;
+package com.panandafog.mt_server.dummy;
 
-import com.panandafog.mt_server.entity.Dummy;
+import com.panandafog.mt_server.dummy.Dummy;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DummiesRepository extends CrudRepository<Dummy, Long> {

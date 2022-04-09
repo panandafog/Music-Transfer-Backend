@@ -1,7 +1,7 @@
 package com.panandafog.mt_server.account.verification;
 
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.service.UserService;
+import com.panandafog.mt_server.authorisation.AppUser;
+import com.panandafog.mt_server.authorisation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;

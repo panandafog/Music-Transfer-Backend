@@ -1,9 +1,5 @@
-package com.panandafog.mt_server.controller;
+package com.panandafog.mt_server.authorisation;
 
-import com.panandafog.mt_server.entity.AppUser;
-import com.panandafog.mt_server.entity.UserDataDTO;
-import com.panandafog.mt_server.entity.UserResponseDTO;
-import com.panandafog.mt_server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

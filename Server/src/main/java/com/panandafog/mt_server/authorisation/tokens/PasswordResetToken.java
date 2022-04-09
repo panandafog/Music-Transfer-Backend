@@ -1,4 +1,6 @@
-package com.panandafog.mt_server.entity;
+package com.panandafog.mt_server.authorisation.tokens;
+
+import com.panandafog.mt_server.authorisation.AppUser;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -6,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class VerificationToken {
+public class PasswordResetToken {
     private static final int EXPIRATION = 60 * 24;
 
     @Id
@@ -21,7 +23,9 @@ public class VerificationToken {
 
     private Date expiryDate;
 
-    public VerificationToken() { }
+    public PasswordResetToken() {
+        System.out.println("Initialized VerificationToken with wrong constructor!");
+    }
 
     private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();
@@ -30,7 +34,7 @@ public class VerificationToken {
         return new Date(cal.getTime().getTime());
     }
 
-    public VerificationToken(String token, AppUser user) {
+    public PasswordResetToken(String token, AppUser user) {
         this.token = token;
         this.user = user;
         this.expiryDate = calculateExpiryDate();
