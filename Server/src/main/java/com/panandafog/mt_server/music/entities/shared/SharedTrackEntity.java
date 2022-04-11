@@ -1,9 +1,13 @@
 package com.panandafog.mt_server.music.entities.shared;
 
+import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
+import com.panandafog.mt_server.utility.Utility;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +20,8 @@ import java.util.Set;
 public class SharedTrackEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+//    @GeneratedValue(generator="system-uuid")
+//    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Getter
     @Setter
     private String id;
@@ -50,4 +55,23 @@ public class SharedTrackEntity {
     @Getter
     @Setter
     private Integer duration;
+
+    public SharedTrackEntity(String id, String title, String spotifyID, String lastFmID, String vkID, String vkOwnerID, List<String> artists, Integer duration) {
+        if (Utility.isNullOrEmpty(id)) {
+            this.id = Utility.makeID();
+        } else {
+            this.id = id;
+        }
+        this.title = title;
+        this.spotifyID = spotifyID;
+        this.lastFmID = lastFmID;
+        this.vkID = vkID;
+        this.vkOwnerID = vkOwnerID;
+        this.artists = artists;
+        this.duration = duration;
+    }
+
+    public SharedTrackDTO dto() {
+        return new SharedTrackDTO(id, title, spotifyID, lastFmID, vkID, vkOwnerID, artists, duration);
+    };
 }
