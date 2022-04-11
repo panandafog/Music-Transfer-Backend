@@ -21,9 +21,10 @@ public class LastFmSearchedTrackEntity {
     @Id
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -37,14 +38,12 @@ public class LastFmSearchedTrackEntity {
 
     @ManyToOne
 //    @JoinColumn(name="cart_id", nullable=false)
+    @Getter
+    @Setter
     private LastFmSearchTracksSuboperationEntity searchTracksSuboperation;
 
-    public LastFmSearchedTrackEntity(String id, Boolean triedToSearchTracks, Set<LastFmTrackEntity> tracks) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmSearchedTrackEntity(Integer id, Boolean triedToSearchTracks, Set<LastFmTrackEntity> tracks) {
+        this.id = id;
         this.triedToSearchTracks = triedToSearchTracks;
         this.tracks = tracks;
     }

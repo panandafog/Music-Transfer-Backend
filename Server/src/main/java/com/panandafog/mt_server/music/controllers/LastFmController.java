@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/lastfm")
 @RequiredArgsConstructor
@@ -27,14 +29,20 @@ public class LastFmController {
 //        return userService.signin(username, password);
 //    }
 
-    @PostMapping("/testSaveSharedTrack")
-    public String testSaveSharedTrack(@RequestBody SharedTrackDTO sharedTrackDTO) {
-        return lastFmService.testSaveSharedTrack(modelMapper.map(sharedTrackDTO, SharedTrackEntity.class));
-    }
+//    @PostMapping("/testSaveSharedTrack")
+//    public String testSaveSharedTrack(@RequestBody SharedTrackDTO sharedTrackDTO) {
+//        return lastFmService.testSaveSharedTrack(modelMapper.map(sharedTrackDTO, SharedTrackEntity.class));
+//    }
 
     @PostMapping("/saveOperation")
-    public String saveOperation(@RequestBody LastFmAddTracksOperationDTO addTracksOperationDTO) {
-        return lastFmService.saveOperation(addTracksOperationDTO.entity());
+    public String saveOperation(@RequestBody LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+        return lastFmService.saveOperation(addTracksOperationDTO, req);
+//        return lastFmService.saveOperation(modelMapper.map(addTracksOperationDTO, LastFmAddTracksOperationEntity.class));
+    }
+
+    @GetMapping("/getOperation")
+    public LastFmAddTracksOperationDTO saveOperation(@RequestParam Integer id, HttpServletRequest req) {
+        return lastFmService.getOperation(id, req);
 //        return lastFmService.saveOperation(modelMapper.map(addTracksOperationDTO, LastFmAddTracksOperationEntity.class));
     }
 }

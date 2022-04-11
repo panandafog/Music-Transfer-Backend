@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SharedTrackDTO {
 
-    private String id;
+    private Integer id;
     private String title;
     private String spotifyID;
     private String lastFmID;

@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class LastFmTrackDTO {
 
-    private String id;
+    private Integer id;
     private String mbid;
     private String name;
     private String artist;

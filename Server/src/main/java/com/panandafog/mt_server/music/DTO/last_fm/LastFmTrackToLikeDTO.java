@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class LastFmTrackToLikeDTO {
 
-    private String id;
+    private Integer id;
     private Boolean liked;
     private LastFmTrackDTO track;
 

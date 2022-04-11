@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LastFmSearchedTrackDTO {
 
-    private String id;
+    private Integer id;
     private Boolean triedToSearchTracks;
     private Set<LastFmTrackDTO> tracks;
 

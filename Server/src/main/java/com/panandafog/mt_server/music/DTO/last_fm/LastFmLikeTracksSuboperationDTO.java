@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class LastFmLikeTracksSuboperationDTO {
 
-    private String id;
+    private Integer id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date started;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

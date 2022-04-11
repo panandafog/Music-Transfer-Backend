@@ -20,9 +20,10 @@ public class LastFmTrackEntity {
     @Id
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -47,12 +48,8 @@ public class LastFmTrackEntity {
     @ManyToMany
     private Set<LastFmSearchedTrackEntity> searchResults;
 
-    public LastFmTrackEntity(String id, String mbid, String name, String artist, String url) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmTrackEntity(Integer id, String mbid, String name, String artist, String url) {
+        this.id = id;
         this.mbid = mbid;
         this.name = name;
         this.artist = artist;

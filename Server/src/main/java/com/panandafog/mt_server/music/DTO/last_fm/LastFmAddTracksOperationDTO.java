@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public class LastFmAddTracksOperationDTO {
 
-    private String id;
+    private Integer id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date started;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

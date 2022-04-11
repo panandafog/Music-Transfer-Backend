@@ -21,9 +21,10 @@ public class LastFmAddTracksOperationEntity {
     @Id
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -51,12 +52,8 @@ public class LastFmAddTracksOperationEntity {
     @Setter
     private AppUser user;
 
-    public LastFmAddTracksOperationEntity(String id, Date started, Date completed, LastFmSearchTracksSuboperationEntity searchSuboperation, LastFmLikeTracksSuboperationEntity likeSuboperation, AppUser user) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmAddTracksOperationEntity(Integer id, Date started, Date completed, LastFmSearchTracksSuboperationEntity searchSuboperation, LastFmLikeTracksSuboperationEntity likeSuboperation, AppUser user) {
+        this.id = id;
         this.started = started;
         this.completed = completed;
         this.searchSuboperation = searchSuboperation;

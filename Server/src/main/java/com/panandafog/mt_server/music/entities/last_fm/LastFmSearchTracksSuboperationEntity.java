@@ -22,9 +22,10 @@ public class LastFmSearchTracksSuboperationEntity {
     @Id
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -42,12 +43,8 @@ public class LastFmSearchTracksSuboperationEntity {
     @OneToOne(mappedBy = "searchSuboperation")
     private LastFmAddTracksOperationEntity addTracksOperation;
 
-    public LastFmSearchTracksSuboperationEntity(String id, Date started, Date completed, Set<LastFmSearchedTrackEntity> searchedTracks) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmSearchTracksSuboperationEntity(Integer id, Date started, Date completed, Set<LastFmSearchedTrackEntity> searchedTracks) {
+        this.id = id;
         this.started = started;
         this.completed = completed;
         this.searchedTracks = searchedTracks;

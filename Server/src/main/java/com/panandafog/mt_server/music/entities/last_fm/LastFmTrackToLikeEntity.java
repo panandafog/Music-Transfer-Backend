@@ -17,9 +17,10 @@ public class LastFmTrackToLikeEntity {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Column(unique = false, nullable = false)
     @Getter
@@ -34,14 +35,12 @@ public class LastFmTrackToLikeEntity {
 
     @ManyToOne
 //    @JoinColumn(name="cart_id", nullable=false)
+    @Getter
+    @Setter
     private LastFmLikeTracksSuboperationEntity likeTracksSuboperation;
 
-    public LastFmTrackToLikeEntity(String id, Boolean liked, LastFmTrackEntity track) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmTrackToLikeEntity(Integer id, Boolean liked, LastFmTrackEntity track) {
+        this.id = id;
         this.liked = liked;
         this.track = track;
     }
