@@ -2,7 +2,8 @@ package com.panandafog.mt_server.music.services;
 
 import com.panandafog.mt_server.authorisation.AppUser;
 import com.panandafog.mt_server.authorisation.UserService;
-import com.panandafog.mt_server.music.DTO.last_fm.LastFmAddTracksOperationDTO;
+import com.panandafog.mt_server.music.DTO.last_fm.*;
+import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
 import com.panandafog.mt_server.music.entities.last_fm.*;
 import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
 import com.panandafog.mt_server.music.repository.last_fm.*;
@@ -29,41 +30,107 @@ public class LastFmService {
 
     private final SharedTrackRepository sharedTrackRepository;
 
-    @Transactional
     public String saveOperation(LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
         AppUser user = userService.whoami(req);
         addTracksOperationDTO.setUser(user);
 
         LastFmAddTracksOperationEntity addTracksOperationEntity = addTracksOperationDTO.entity();
 
-        LastFmLikeTracksSuboperationEntity likeTracksSuboperation = addTracksOperationEntity.getLikeSuboperation();
-        LastFmSearchTracksSuboperationEntity searchTracksSuboperation = addTracksOperationEntity.getSearchSuboperation();
+        LastFmLikeTracksSuboperationDTO likeTracksSuboperation = addTracksOperationDTO.getLikeSuboperation();
+        LastFmSearchTracksSuboperationDTO searchTracksSuboperation = addTracksOperationDTO.getSearchSuboperation();
 
-        Set<SharedTrackEntity> notFoundTracks = likeTracksSuboperation.getNotFoundTracks();
-        Set<LastFmTrackToLikeEntity> tracksToLike = likeTracksSuboperation.getTracksToLike();
+        Set<SharedTrackDTO> notFoundTracks = likeTracksSuboperation.getNotFoundTracks();
+        Set<LastFmTrackToLikeDTO> tracksToLike = likeTracksSuboperation.getTracksToLike();
 
-        LastFmSearchTracksSuboperationEntity savedSearchTracksSuboperation = lastFmSearchTracksSuboperationRepository.save(searchTracksSuboperation);
-        LastFmLikeTracksSuboperationEntity savedLikeTracksSuboperation = lastFmLikeTracksSuboperationRepository.save(likeTracksSuboperation);
-        lastFmAddTracksOperationRepository.save(addTracksOperationEntity);
+        saveSharedTracks(notFoundTracks);
+        saveTracksToLike(tracksToLike);
 
-        sharedTrackRepository.saveAll(notFoundTracks);
-        System.out.println("saved notFoundTracks");
+        Set<LastFmSearchedTrackDTO> searchedTracks = searchTracksSuboperation.getSearchedTracks();
+        saveSearchedTracks(searchedTracks);
 
-        for (LastFmTrackToLikeEntity track: tracksToLike) {
-            lastFmTrackRepository.saveAndFlush(track.getTrack());
-            track.setLikeTracksSuboperation(savedLikeTracksSuboperation);
-            lastFmTrackToLikeRepository.saveAndFlush(track);
+        LastFmSearchTracksSuboperationEntity savedSearchTracksSuboperationEntity = saveSearchSuboperation(searchTracksSuboperation.entity());
+        LastFmLikeTracksSuboperationEntity savedLikeTracksSuboperationEntity = saveLikeSuboperation(likeTracksSuboperation.entity());
+        LastFmAddTracksOperationEntity savedAddTracksOperation = saveAddOperation(addTracksOperationEntity);
+
+        for (LastFmTrackToLikeDTO track: tracksToLike) {
+            LastFmTrackToLikeEntity trackEntity = track.entity();
+            trackEntity.setLikeTracksSuboperation(savedLikeTracksSuboperationEntity);
+            lastFmTrackToLikeRepository.saveAndFlush(trackEntity);
         }
 
-        Set<LastFmSearchedTrackEntity> searchedTracks = searchTracksSuboperation.getSearchedTracks();
-
-        for (LastFmSearchedTrackEntity searchedTrack: searchedTracks) {
-            lastFmTrackRepository.saveAllAndFlush(searchedTrack.getTracks());
-            searchedTrack.setSearchTracksSuboperation(savedSearchTracksSuboperation);
-            lastFmSearchedTrackRepository.saveAndFlush(searchedTrack);
+        for (LastFmSearchedTrackDTO searchedTrack: searchedTracks) {
+            LastFmSearchedTrackEntity searchedTrackEntity = searchedTrack.entity();
+            searchedTrackEntity.setSearchTracksSuboperation(savedSearchTracksSuboperationEntity);
+            lastFmSearchedTrackRepository.saveAndFlush(searchedTrackEntity);
         }
 
         return "Successful";
+    }
+
+    @Transactional
+    public LastFmSearchTracksSuboperationEntity saveSearchSuboperation(
+            LastFmSearchTracksSuboperationEntity savedSearchTracksSuboperationEntity
+    ) {
+        return lastFmSearchTracksSuboperationRepository.saveAndFlush(savedSearchTracksSuboperationEntity);
+    }
+
+    @Transactional
+    public LastFmLikeTracksSuboperationEntity saveLikeSuboperation(
+            LastFmLikeTracksSuboperationEntity savedLikeTracksSuboperationEntity
+    ) {
+        return lastFmLikeTracksSuboperationRepository.saveAndFlush(savedLikeTracksSuboperationEntity);
+    }
+
+    @Transactional
+    public LastFmAddTracksOperationEntity saveAddOperation(
+            LastFmAddTracksOperationEntity addTracksOperationEntity
+    ) {
+        return lastFmAddTracksOperationRepository.saveAndFlush(addTracksOperationEntity);
+    }
+
+    @Transactional
+    public Void saveTracksToLike(Set<LastFmTrackToLikeDTO> tracksToLike) {
+        for (LastFmTrackToLikeDTO track: tracksToLike) {
+            LastFmTrackToLikeEntity trackEntity = track.entity();
+            saveTrack(track.getTrack());
+            lastFmTrackToLikeRepository.saveAndFlush(trackEntity);
+        }
+        return null;
+    }
+
+    @Transactional
+    public Void saveSearchedTracks(Set<LastFmSearchedTrackDTO> searchedTracks) {
+        for (LastFmSearchedTrackDTO searchedTrack: searchedTracks) {
+            LastFmSearchedTrackEntity searchedTrackEntity = searchedTrack.entity();
+            saveLastFmTracks(searchedTrackEntity.getFoundTracks());
+            lastFmSearchedTrackRepository.saveAndFlush(searchedTrackEntity);
+        }
+        return null;
+    }
+
+    public Void saveSharedTracks(Set<SharedTrackDTO> tracks) {
+        for (SharedTrackDTO track: tracks) {
+            saveSharedTrack(track.entity());
+        }
+        return null;
+    }
+
+    @Transactional
+    public Void saveSharedTrack(SharedTrackEntity track) {
+        sharedTrackRepository.saveAndFlush(track);
+        return null;
+    }
+
+    @Transactional
+    public Void saveLastFmTracks(Set<LastFmTrackEntity> tracks) {
+        lastFmTrackRepository.saveAllAndFlush(tracks);
+        return null;
+    }
+
+    @Transactional
+    public Void saveTrack(LastFmTrackDTO track) {
+        lastFmTrackRepository.saveAndFlush(track.entity());
+        return null;
     }
 
     @Transactional

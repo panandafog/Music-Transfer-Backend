@@ -45,7 +45,7 @@ public class LastFmTrackEntity {
 
     @Getter
     @Setter
-    @ManyToMany
+    @ManyToMany(mappedBy = "foundTracks")
     private Set<LastFmSearchedTrackEntity> searchResults;
 
     public LastFmTrackEntity(Integer id, String mbid, String name, String artist, String url) {

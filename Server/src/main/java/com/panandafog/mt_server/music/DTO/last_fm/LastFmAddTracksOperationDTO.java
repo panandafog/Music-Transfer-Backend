@@ -9,9 +9,7 @@ import com.panandafog.mt_server.music.entities.last_fm.LastFmLikeTracksSuboperat
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackToLikeEntity;
 import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -23,14 +21,30 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public class LastFmAddTracksOperationDTO {
 
+    @Getter
+    @Setter
     private Integer id;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Getter
+    @Setter
     private Date started;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Getter
+    @Setter
     private Date completed;
 
+    @Getter
+    @Setter
     private LastFmSearchTracksSuboperationDTO searchSuboperation;
+
+    @Getter
+    @Setter
     private LastFmLikeTracksSuboperationDTO likeSuboperation;
+
+    @Getter
+    @Setter
     private AppUser user;
 
     public LastFmAddTracksOperationEntity entity() {

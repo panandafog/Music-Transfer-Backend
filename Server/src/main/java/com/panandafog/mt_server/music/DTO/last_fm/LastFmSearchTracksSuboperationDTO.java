@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Set;
@@ -18,12 +16,22 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class LastFmSearchTracksSuboperationDTO {
 
+    @Getter
+    @Setter
     private Integer id;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Getter
+    @Setter
     private Date started;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Getter
+    @Setter
     private Date completed;
 
+    @Getter
+    @Setter
     private Set<LastFmSearchedTrackDTO> searchedTracks;
 
     public LastFmSearchTracksSuboperationEntity entity() {
