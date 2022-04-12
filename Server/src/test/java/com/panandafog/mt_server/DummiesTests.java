@@ -41,7 +41,7 @@ public class DummiesTests {
     private UserService userService;
 
     @Test
-    public void shouldReturnDefaultMessage() throws Exception {
+    public void testSaveAndGet() throws Exception {
 
         TestUserDetails userDetails = userService.getTestUserDetails();
 

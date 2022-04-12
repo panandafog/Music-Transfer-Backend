@@ -24,25 +24,13 @@ public class LastFmController {
     @Autowired
     private final ModelMapper modelMapper;
 
-//    @PostMapping("/updateOperation")
-//    public String updateOperation(@RequestBody UserDataDTO user) {
-//        return userService.signin(username, password);
-//    }
-
-//    @PostMapping("/testSaveSharedTrack")
-//    public String testSaveSharedTrack(@RequestBody SharedTrackDTO sharedTrackDTO) {
-//        return lastFmService.testSaveSharedTrack(modelMapper.map(sharedTrackDTO, SharedTrackEntity.class));
-//    }
-
     @PostMapping("/saveOperation")
     public String saveOperation(@RequestBody LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
         return lastFmService.saveOperation(addTracksOperationDTO, req);
-//        return lastFmService.saveOperation(modelMapper.map(addTracksOperationDTO, LastFmAddTracksOperationEntity.class));
     }
 
     @GetMapping("/getOperation")
-    public LastFmAddTracksOperationDTO saveOperation(@RequestParam Integer id, HttpServletRequest req) {
+    public LastFmAddTracksOperationDTO getOperation(@RequestParam Integer id, HttpServletRequest req) {
         return lastFmService.getOperation(id, req);
-//        return lastFmService.saveOperation(modelMapper.map(addTracksOperationDTO, LastFmAddTracksOperationEntity.class));
     }
 }
