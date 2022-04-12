@@ -3,7 +3,6 @@ package com.panandafog.mt_server.music.DTO.last_fm;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
-import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackEntity;
 import lombok.*;
 
 import java.util.Date;

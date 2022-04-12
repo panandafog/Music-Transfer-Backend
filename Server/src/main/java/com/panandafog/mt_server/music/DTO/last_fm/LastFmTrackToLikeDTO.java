@@ -1,11 +1,7 @@
 package com.panandafog.mt_server.music.DTO.last_fm;
 
-import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
-import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackToLikeEntity;
 import lombok.*;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor

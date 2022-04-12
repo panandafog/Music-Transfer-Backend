@@ -4,11 +4,9 @@ import com.panandafog.mt_server.music.DTO.last_fm.LastFmLikeTracksSuboperationDT
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmTrackToLikeDTO;
 import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
 import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
-import com.panandafog.mt_server.utility.Utility;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,8 +20,6 @@ import java.util.stream.Stream;
 public class LastFmLikeTracksSuboperationEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
@@ -37,17 +33,19 @@ public class LastFmLikeTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="likeTracksSuboperation")
+    @OneToMany(mappedBy="likeTracksSuboperation", cascade = CascadeType.ALL)
     @Getter
     @Setter
     private Set<LastFmTrackToLikeEntity> tracksToLike;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Getter
     @Setter
     private Set<SharedTrackEntity> notFoundTracks;
 
-    @OneToOne(mappedBy = "likeSuboperation")
+    @OneToOne(mappedBy = "likeSuboperation", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private LastFmAddTracksOperationEntity addTracksOperation;
 
     public LastFmLikeTracksSuboperationEntity(Integer id, Date started, Date completed, Set<LastFmTrackToLikeEntity> tracksToLike, Set<SharedTrackEntity> notFoundTracks) {
@@ -56,6 +54,8 @@ public class LastFmLikeTracksSuboperationEntity {
         this.completed = completed;
         this.tracksToLike = tracksToLike;
         this.notFoundTracks = notFoundTracks;
+
+        this.tracksToLike.forEach(t -> t.setLikeTracksSuboperation(this));
     }
 
     public LastFmLikeTracksSuboperationDTO dto() {

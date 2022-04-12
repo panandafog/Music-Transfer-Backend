@@ -2,11 +2,9 @@ package com.panandafog.mt_server.music.entities.last_fm;
 
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmSearchedTrackDTO;
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmTrackDTO;
-import com.panandafog.mt_server.utility.Utility;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,8 +17,6 @@ import java.util.stream.Stream;
 public class LastFmSearchedTrackEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
@@ -31,7 +27,7 @@ public class LastFmSearchedTrackEntity {
     @Column(unique = false, nullable = false)
     private Boolean triedToSearchTracks;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "last_fm_searched_track_found_track",
             joinColumns = @JoinColumn(name = "searched_track_id"),
@@ -41,8 +37,7 @@ public class LastFmSearchedTrackEntity {
     @Setter
     private Set<LastFmTrackEntity> foundTracks;
 
-    @ManyToOne
-//    @JoinColumn(name="cart_id", nullable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @Getter
     @Setter
     private LastFmSearchTracksSuboperationEntity searchTracksSuboperation;

@@ -2,16 +2,12 @@ package com.panandafog.mt_server.music.entities.last_fm;
 
 import com.panandafog.mt_server.authorisation.AppUser;
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmAddTracksOperationDTO;
-import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
-import com.panandafog.mt_server.utility.Utility;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "last_fm_add_tracks_operations")
@@ -19,8 +15,6 @@ import java.util.Set;
 public class LastFmAddTracksOperationEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
@@ -46,7 +40,7 @@ public class LastFmAddTracksOperationEntity {
     @Setter
     private LastFmLikeTracksSuboperationEntity likeSuboperation;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id", nullable=false)
     @Getter
     @Setter
@@ -57,7 +51,9 @@ public class LastFmAddTracksOperationEntity {
         this.started = started;
         this.completed = completed;
         this.searchSuboperation = searchSuboperation;
+        this.searchSuboperation.setAddTracksOperation(this);
         this.likeSuboperation = likeSuboperation;
+        this.likeSuboperation.setAddTracksOperation(this);
         this.user = user;
     }
 

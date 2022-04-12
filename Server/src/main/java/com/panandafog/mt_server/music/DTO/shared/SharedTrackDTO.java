@@ -1,6 +1,5 @@
 package com.panandafog.mt_server.music.DTO.shared;
 
-import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
 import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
 import lombok.*;
 
