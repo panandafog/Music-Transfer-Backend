@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -147,5 +149,29 @@ public class UserService {
   public void createPasswordResetToken(AppUser user, String token) {
     PasswordResetToken myToken = new PasswordResetToken(token, user);
     passwordResetTokenRepository.save(myToken);
+  }
+
+  public TestUserDetails getTestUserDetails() {
+    try {
+      AppUser testUser = new AppUser();
+      testUser.setUsername("testuser");
+      testUser.setEmail("testuser@email.com");
+      testUser.setPassword("testpassword");
+      testUser.setEnabled(true);
+      testUser.setAppUserRoles(new ArrayList<>(Arrays.asList(AppUserRole.ROLE_CLIENT)));
+
+      AppUser testUserWithEncodedPassword = testUser;
+      testUserWithEncodedPassword.setPassword(passwordEncoder.encode(testUser.getPassword()));
+
+      if (!userRepository.existsByUsername(testUser.getUsername())) {
+        userRepository.save(testUserWithEncodedPassword);
+      };
+
+      String token = jwtTokenProvider.createToken(testUser.getUsername(), testUserWithEncodedPassword.getAppUserRoles());
+      return new TestUserDetails(testUser, token);
+    } catch (AuthenticationException e) {
+      System.out.println("Invalid username/password supplied");
+      throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
   }
 }

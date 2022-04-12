@@ -1,5 +1,7 @@
 package com.panandafog.mt_server;
 
+import com.panandafog.mt_server.authorisation.AppUser;
+import com.panandafog.mt_server.authorisation.AppUserRole;
 import com.panandafog.mt_server.authorisation.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -8,11 +10,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SpringBootApplication
 @RequiredArgsConstructor
 public class MtServerApplication implements CommandLineRunner {
-
-    final UserService userService;
 
     public static void main(String[] args) {
         SpringApplication.run(MtServerApplication.class, args);
@@ -38,7 +41,7 @@ public class MtServerApplication implements CommandLineRunner {
 //        client.setPassword("client");
 //        client.setEmail("client@email.com");
 //        client.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_CLIENT)));
-//
+
 //        userService.signup(client);
     }
 }
