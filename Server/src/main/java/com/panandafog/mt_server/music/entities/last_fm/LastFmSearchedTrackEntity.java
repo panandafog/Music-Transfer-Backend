@@ -2,11 +2,9 @@ package com.panandafog.mt_server.music.entities.last_fm;
 
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmSearchedTrackDTO;
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmTrackDTO;
-import com.panandafog.mt_server.utility.Utility;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,38 +17,39 @@ import java.util.stream.Stream;
 public class LastFmSearchedTrackEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
     @Column(unique = false, nullable = false)
     private Boolean triedToSearchTracks;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "last_fm_searched_track_found_track",
+            joinColumns = @JoinColumn(name = "searched_track_id"),
+            inverseJoinColumns = @JoinColumn(name = "found_track_id_id")
+    )
     @Getter
     @Setter
-    private Set<LastFmTrackEntity> tracks;
+    private Set<LastFmTrackEntity> foundTracks;
 
-    @ManyToOne
-//    @JoinColumn(name="cart_id", nullable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private LastFmSearchTracksSuboperationEntity searchTracksSuboperation;
 
-    public LastFmSearchedTrackEntity(String id, Boolean triedToSearchTracks, Set<LastFmTrackEntity> tracks) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmSearchedTrackEntity(Integer id, Boolean triedToSearchTracks, Set<LastFmTrackEntity> tracks) {
+        this.id = id;
         this.triedToSearchTracks = triedToSearchTracks;
-        this.tracks = tracks;
+        this.foundTracks = tracks;
     }
 
     public LastFmSearchedTrackDTO dto() {
-        Stream<LastFmTrackDTO> stream = tracks.stream().map(LastFmTrackEntity::dto);
+        Stream<LastFmTrackDTO> stream = foundTracks.stream().map(LastFmTrackEntity::dto);
         return new LastFmSearchedTrackDTO(id, triedToSearchTracks, stream.collect(Collectors.toSet()));
     };
 }

@@ -1,21 +1,23 @@
 package com.panandafog.mt_server.music.DTO.last_fm;
 
-import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
-import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackToLikeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Set;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LastFmTrackToLikeDTO {
 
-    private String id;
+    @Getter
+    @Setter
+    private Integer id;
+
+    @Getter
+    @Setter
     private Boolean liked;
+
+    @Getter
+    @Setter
     private LastFmTrackDTO track;
 
     public LastFmTrackToLikeEntity entity() {

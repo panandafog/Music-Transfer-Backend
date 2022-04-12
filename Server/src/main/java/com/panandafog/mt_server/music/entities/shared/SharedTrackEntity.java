@@ -1,18 +1,12 @@
 package com.panandafog.mt_server.music.entities.shared;
 
 import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
-import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
-import com.panandafog.mt_server.utility.Utility;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "shared_tracks")
@@ -20,11 +14,10 @@ import java.util.Set;
 public class SharedTrackEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -56,12 +49,8 @@ public class SharedTrackEntity {
     @Setter
     private Integer duration;
 
-    public SharedTrackEntity(String id, String title, String spotifyID, String lastFmID, String vkID, String vkOwnerID, List<String> artists, Integer duration) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public SharedTrackEntity(Integer id, String title, String spotifyID, String lastFmID, String vkID, String vkOwnerID, List<String> artists, Integer duration) {
+        this.id = id;
         this.title = title;
         this.spotifyID = spotifyID;
         this.lastFmID = lastFmID;

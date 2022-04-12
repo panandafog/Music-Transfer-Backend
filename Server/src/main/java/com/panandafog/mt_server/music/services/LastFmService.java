@@ -1,17 +1,21 @@
 package com.panandafog.mt_server.music.services;
 
+import com.panandafog.mt_server.authorisation.AppUser;
+import com.panandafog.mt_server.authorisation.UserService;
+import com.panandafog.mt_server.music.DTO.last_fm.*;
 import com.panandafog.mt_server.music.entities.last_fm.*;
-import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
 import com.panandafog.mt_server.music.repository.last_fm.*;
 import com.panandafog.mt_server.music.repository.shared.SharedTrackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
 public class LastFmService {
+
+    private final UserService userService;
 
     private final LastFmAddTracksOperationRepository lastFmAddTracksOperationRepository;
     private final LastFmLikeTracksSuboperationRepository lastFmLikeTracksSuboperationRepository;
@@ -22,34 +26,22 @@ public class LastFmService {
 
     private final SharedTrackRepository sharedTrackRepository;
 
-    public String saveOperation(LastFmAddTracksOperationEntity addTracksOperationEntity) {
-        LastFmLikeTracksSuboperationEntity likeTracksSuboperation = addTracksOperationEntity.getLikeSuboperation();
-        LastFmSearchTracksSuboperationEntity searchTracksSuboperation = addTracksOperationEntity.getSearchSuboperation();
+    public String saveOperation(LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+        AppUser user = userService.whoami(req);
+        addTracksOperationDTO.setUser(user);
 
-        Set<SharedTrackEntity> notFoundTracks = likeTracksSuboperation.getNotFoundTracks();
-        Set<LastFmTrackToLikeEntity> tracksToLike = likeTracksSuboperation.getTracksToLike();
+        LastFmAddTracksOperationEntity addTracksOperationEntity = addTracksOperationDTO.entity();
 
-        sharedTrackRepository.saveAll(notFoundTracks);
-
-        for (LastFmTrackToLikeEntity track: tracksToLike) {
-            lastFmTrackRepository.save(track.getTrack());
-            lastFmTrackToLikeRepository.save(track);
-        }
-
-        Set<LastFmSearchedTrackEntity> searchedTracks = searchTracksSuboperation.getSearchedTracks();
-
-        for (LastFmSearchedTrackEntity searchedTrack: searchedTracks) {
-            lastFmTrackRepository.saveAll(searchedTrack.getTracks());
-            lastFmSearchedTrackRepository.save(searchedTrack);
-        }
-
-        lastFmSearchTracksSuboperationRepository.save(searchTracksSuboperation);
-        lastFmLikeTracksSuboperationRepository.save(likeTracksSuboperation);
         lastFmAddTracksOperationRepository.save(addTracksOperationEntity);
+
         return "Successful";
     }
 
-//    public LastFmAddTracksOperationEntity getOperation(String id) {
-//        lastFmAddTracksOperationRepository.getById(id);
-//    }
+    public LastFmAddTracksOperationDTO getOperation(Integer id, HttpServletRequest req) {
+        AppUser user = userService.whoami(req);
+        LastFmAddTracksOperationEntity operation = lastFmAddTracksOperationRepository.findByIdAndUser(id, user).stream().findFirst().get();
+        LastFmAddTracksOperationDTO operationDTO = operation.dto();
+        operationDTO.setUser(null);
+        return operationDTO;
+    }
 }

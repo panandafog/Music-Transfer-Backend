@@ -2,11 +2,9 @@ package com.panandafog.mt_server.music.entities.last_fm;
 
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmSearchTracksSuboperationDTO;
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmSearchedTrackDTO;
-import com.panandafog.mt_server.utility.Utility;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,11 +18,10 @@ import java.util.stream.Stream;
 public class LastFmSearchTracksSuboperationEntity {
 
     @Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private String id;
+    private Integer id;
 
     @Getter
     @Setter
@@ -34,23 +31,23 @@ public class LastFmSearchTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="searchTracksSuboperation")
+    @OneToMany(mappedBy="searchTracksSuboperation", cascade = CascadeType.ALL)
     @Getter
     @Setter
     private Set<LastFmSearchedTrackEntity> searchedTracks;
 
-    @OneToOne(mappedBy = "searchSuboperation")
+    @OneToOne(mappedBy = "searchSuboperation", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private LastFmAddTracksOperationEntity addTracksOperation;
 
-    public LastFmSearchTracksSuboperationEntity(String id, Date started, Date completed, Set<LastFmSearchedTrackEntity> searchedTracks) {
-        if (Utility.isNullOrEmpty(id)) {
-            this.id = Utility.makeID();
-        } else {
-            this.id = id;
-        }
+    public LastFmSearchTracksSuboperationEntity(Integer id, Date started, Date completed, Set<LastFmSearchedTrackEntity> searchedTracks) {
+        this.id = id;
         this.started = started;
         this.completed = completed;
         this.searchedTracks = searchedTracks;
+
+        this.searchedTracks.forEach(t -> t.setSearchTracksSuboperation(this));
     }
 
     public LastFmSearchTracksSuboperationDTO dto() {

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandlerController {
