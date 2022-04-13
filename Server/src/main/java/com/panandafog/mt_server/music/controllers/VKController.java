@@ -1,6 +1,7 @@
 package com.panandafog.mt_server.music.controllers;
 
 import com.panandafog.mt_server.music.DTO.vk.VKAddTracksOperationDTO;
+import com.panandafog.mt_server.music.DTO.vk.VKAddTracksOperationsDTO;
 import com.panandafog.mt_server.music.services.VKService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +23,10 @@ public class VKController {
     @GetMapping("/getOperation")
     public VKAddTracksOperationDTO getOperation(@RequestParam Integer id, HttpServletRequest req) {
         return vkService.getOperation(id, req);
+    }
+
+    @GetMapping("/getOperations")
+    public VKAddTracksOperationsDTO getOperations(@RequestParam Integer page, HttpServletRequest req) {
+        return vkService.getOperations(page, req);
     }
 }
