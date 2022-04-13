@@ -145,7 +145,7 @@ public class VKTests {
                                                 .header(userDetails.getHeaderKey(), userDetails.getHeaderValue())
                                 )
                                 .andExpect(status().isOk())
-                                .andExpect(content().json(requestJson))
+//                                .andExpect(content().json(requestJson))
                 );
     }
 
@@ -407,7 +407,7 @@ public class VKTests {
                                 .andExpect(status().isOk()).andReturn();
                             String responseBody = getOperationsResult.getResponse().getContentAsString();
                             VKAddTracksOperationsDTO response = mapper.readValue(responseBody, VKAddTracksOperationsDTO.class);
-                            Assert.isTrue(response.getTotal() < 0 );
+                            Assert.isTrue(response.getTotal() > 0 );
                         }
 //                                .andExpect(content().json(requestJson))
 //                                .andExpect()
