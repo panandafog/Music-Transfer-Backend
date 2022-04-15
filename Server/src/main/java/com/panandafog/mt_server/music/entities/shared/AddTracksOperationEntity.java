@@ -12,7 +12,8 @@ import java.util.Date;
         procedureName = "get_all_operations",
         parameters = {
                 @StoredProcedureParameter(name = "selected_user_id", mode = ParameterMode.IN, type = Integer.class)
-        }
+        },
+        resultClasses = { AddTracksOperationEntity.class }
 )
 //@Table(name = "all_operations")
 public class AddTracksOperationEntity {

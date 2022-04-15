@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class LastFmTrackToLikeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -25,13 +25,12 @@ public class LastFmTrackToLikeEntity {
     @Setter
     private Boolean liked;
 
-    @OneToOne(targetEntity = LastFmTrackEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "track_id")
+    @OneToOne(mappedBy = "trackToLike", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private LastFmTrackEntity track;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private LastFmLikeTracksSuboperationEntity likeTracksSuboperation;
@@ -40,6 +39,8 @@ public class LastFmTrackToLikeEntity {
         this.id = id;
         this.liked = liked;
         this.track = track;
+
+        this.track.setTrackToLike(this);
     }
 
     public LastFmTrackToLikeDTO dto() {

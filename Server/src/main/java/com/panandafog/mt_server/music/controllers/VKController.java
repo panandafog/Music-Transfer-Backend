@@ -16,7 +16,7 @@ public class VKController {
     private final VKService vkService;
 
     @PostMapping("/saveOperation")
-    public String saveOperation(@RequestBody VKAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+    public VKAddTracksOperationDTO saveOperation(@RequestBody VKAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
         return vkService.saveOperation(addTracksOperationDTO, req);
     }
 

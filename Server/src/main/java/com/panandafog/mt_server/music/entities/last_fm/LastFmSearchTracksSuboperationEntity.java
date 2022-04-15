@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class LastFmSearchTracksSuboperationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -31,12 +31,12 @@ public class LastFmSearchTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="searchTracksSuboperation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="searchTracksSuboperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<LastFmSearchedTrackEntity> searchedTracks;
 
-    @OneToOne(mappedBy = "searchSuboperation", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private LastFmAddTracksOperationEntity addTracksOperation;

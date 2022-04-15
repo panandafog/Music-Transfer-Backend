@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class LastFmLikeTracksSuboperationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -33,17 +33,17 @@ public class LastFmLikeTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="likeTracksSuboperation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="likeTracksSuboperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<LastFmTrackToLikeEntity> tracksToLike;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="lastFmLikeTracksSuboperationNotFound", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<SharedTrackEntity> notFoundTracks;
 
-    @OneToOne(mappedBy = "likeSuboperation", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private LastFmAddTracksOperationEntity addTracksOperation;
@@ -56,6 +56,7 @@ public class LastFmLikeTracksSuboperationEntity {
         this.notFoundTracks = notFoundTracks;
 
         this.tracksToLike.forEach(t -> t.setLikeTracksSuboperation(this));
+        this.notFoundTracks.forEach(t -> t.setLastFmLikeTracksSuboperationNotFound(this));
     }
 
     public LastFmLikeTracksSuboperationDTO dto() {

@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class VKLikeTracksSuboperationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -33,22 +33,22 @@ public class VKLikeTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="likeTracksSuboperation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="likeTracksSuboperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<VKTrackToLikeEntity> tracksToLike;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="vkLikeTracksSuboperationNotFound", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<SharedTrackEntity> notFoundTracks;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="vkLikeTracksSuboperationDuplicate", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<SharedTrackEntity> duplicates;
 
-    @OneToOne(mappedBy = "likeSuboperation", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private VKAddTracksOperationEntity addTracksOperation;
@@ -62,6 +62,8 @@ public class VKLikeTracksSuboperationEntity {
         this.duplicates = duplicates;
 
         this.tracksToLike.forEach(t -> t.setLikeTracksSuboperation(this));
+        this.notFoundTracks.forEach(t -> t.setVkLikeTracksSuboperationNotFound(this));
+        this.notFoundTracks.forEach(t -> t.setVkLikeTracksSuboperationDuplicate(this));
     }
 
     public VKLikeTracksSuboperationDTO dto() {

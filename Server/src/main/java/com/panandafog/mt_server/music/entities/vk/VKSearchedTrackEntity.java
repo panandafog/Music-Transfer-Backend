@@ -30,23 +30,23 @@ public class VKSearchedTrackEntity {
     @Column(unique = false, nullable = false)
     private Boolean triedToSearchTracks;
 
-    @OneToOne(targetEntity = SharedTrackEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "track_id")
+    @OneToOne(mappedBy = "vkSearchedTrack", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private SharedTrackEntity trackToSearch;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "vk_searched_track_found_track",
-            joinColumns = @JoinColumn(name = "searched_track_id"),
-            inverseJoinColumns = @JoinColumn(name = "found_track_id_id")
-    )
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "vk_searched_track_found_track",
+//            joinColumns = @JoinColumn(name = "searched_track_id"),
+//            inverseJoinColumns = @JoinColumn(name = "found_track_id_id")
+//    )
+    @OneToMany(mappedBy="vkSearchedTrack", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<VKSavedItemEntity> foundTracks;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private VKSearchTracksSuboperationEntity searchTracksSuboperation;
@@ -56,6 +56,9 @@ public class VKSearchedTrackEntity {
         this.triedToSearchTracks = triedToSearchTracks;
         this.trackToSearch = trackToSearch;
         this.foundTracks = foundTracks;
+
+        this.trackToSearch.setVkSearchedTrack(this);
+        this.foundTracks.forEach(t -> t.setVkSearchedTrack(this));
     }
 
     public VKSearchedTrackDTO dto() {

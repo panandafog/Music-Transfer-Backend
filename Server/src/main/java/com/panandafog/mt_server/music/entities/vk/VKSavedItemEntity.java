@@ -1,6 +1,7 @@
 package com.panandafog.mt_server.music.entities.vk;
 
 import com.panandafog.mt_server.music.DTO.vk.VKSavedItemDTO;
+import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,10 +40,15 @@ public class VKSavedItemEntity {
     @Setter
     private Integer duration;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
-    @ManyToMany(mappedBy = "foundTracks", cascade = CascadeType.ALL)
-    private Set<VKSearchedTrackEntity> searchResults;
+    private VKSearchedTrackEntity vkSearchedTrack;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private VKTrackToLikeEntity vkTrackToLike;
 
     public VKSavedItemEntity(Integer id, String title, String artist, Integer ownerID, Integer duration) {
         this.id = id;

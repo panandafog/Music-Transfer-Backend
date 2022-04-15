@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class VKSearchTracksSuboperationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -31,12 +31,12 @@ public class VKSearchTracksSuboperationEntity {
     @Setter
     private Date completed;
 
-    @OneToMany(mappedBy="searchTracksSuboperation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="searchTracksSuboperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private Set<VKSearchedTrackEntity> searchedTracks;
 
-    @OneToOne(mappedBy = "searchSuboperation", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private VKAddTracksOperationEntity addTracksOperation;

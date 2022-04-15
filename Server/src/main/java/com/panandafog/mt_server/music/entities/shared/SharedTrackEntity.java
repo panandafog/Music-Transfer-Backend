@@ -1,6 +1,11 @@
 package com.panandafog.mt_server.music.entities.shared;
 
 import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
+import com.panandafog.mt_server.music.entities.last_fm.LastFmLikeTracksSuboperationEntity;
+import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
+import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackToLikeEntity;
+import com.panandafog.mt_server.music.entities.vk.VKLikeTracksSuboperationEntity;
+import com.panandafog.mt_server.music.entities.vk.VKSearchedTrackEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,7 +19,7 @@ import java.util.List;
 public class SharedTrackEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -47,7 +52,33 @@ public class SharedTrackEntity {
 
     @Getter
     @Setter
+    @Column(unique = false, nullable = true)
     private Integer duration;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private VKLikeTracksSuboperationEntity vkLikeTracksSuboperationNotFound;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private VKLikeTracksSuboperationEntity vkLikeTracksSuboperationDuplicate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private LastFmLikeTracksSuboperationEntity lastFmLikeTracksSuboperationNotFound;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private LastFmSearchedTrackEntity lastFmSearchedTrack;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private VKSearchedTrackEntity vkSearchedTrack;
 
     public SharedTrackEntity(Integer id, String title, String spotifyID, String lastFmID, String vkID, String vkOwnerID, List<String> artists, Integer duration) {
         this.id = id;

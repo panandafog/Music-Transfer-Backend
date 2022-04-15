@@ -1,6 +1,7 @@
 package com.panandafog.mt_server.authorisation;
 
 import com.panandafog.mt_server.music.entities.last_fm.LastFmAddTracksOperationEntity;
+import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,7 +46,9 @@ public class AppUser {
   @Setter
   private boolean enabled;
 
-  @OneToMany(mappedBy="user")
+  @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @Getter
+  @Setter
   private Set<LastFmAddTracksOperationEntity> lastFmAddTracksOperations;
 
   public AppUser() {

@@ -15,7 +15,7 @@ public class LastFmController {
     private final LastFmService lastFmService;
 
     @PostMapping("/saveOperation")
-    public String saveOperation(@RequestBody LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+    public LastFmAddTracksOperationDTO saveOperation(@RequestBody LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
         return lastFmService.saveOperation(addTracksOperationDTO, req);
     }
 

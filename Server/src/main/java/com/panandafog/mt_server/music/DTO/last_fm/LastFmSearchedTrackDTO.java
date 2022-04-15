@@ -1,7 +1,9 @@
 package com.panandafog.mt_server.music.DTO.last_fm;
 
+import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackEntity;
+import com.panandafog.mt_server.music.entities.shared.SharedTrackEntity;
 import lombok.*;
 
 import java.util.Set;
@@ -23,10 +25,14 @@ public class LastFmSearchedTrackDTO {
 
     @Getter
     @Setter
-    private Set<LastFmTrackDTO> tracks;
+    private SharedTrackDTO trackToSearch;
+
+    @Getter
+    @Setter
+    private Set<LastFmTrackDTO> foundTracks;
 
     public LastFmSearchedTrackEntity entity() {
-        Stream<LastFmTrackEntity> stream = tracks.stream().map(LastFmTrackDTO::entity);
-        return new LastFmSearchedTrackEntity(id, triedToSearchTracks, stream.collect(Collectors.toSet()));
+        Stream<LastFmTrackEntity> stream = foundTracks.stream().map(LastFmTrackDTO::entity);
+        return new LastFmSearchedTrackEntity(id, triedToSearchTracks, trackToSearch.entity(), stream.collect(Collectors.toSet()));
     };
 }

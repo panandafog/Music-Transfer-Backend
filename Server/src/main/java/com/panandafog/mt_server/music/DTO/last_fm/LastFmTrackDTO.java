@@ -14,6 +14,10 @@ public class LastFmTrackDTO {
 
     @Getter
     @Setter
+    private String serverID;
+
+    @Getter
+    @Setter
     private String mbid;
 
     @Getter
@@ -29,6 +33,6 @@ public class LastFmTrackDTO {
     private String url;
 
     public LastFmTrackEntity entity() {
-        return new LastFmTrackEntity(id, mbid, name, artist, url);
+        return new LastFmTrackEntity(id, serverID, mbid, name, artist, url);
     };
 }

@@ -25,13 +25,12 @@ public class VKTrackToLikeEntity {
     @Column(unique = false, nullable = false)
     private Boolean liked;
 
-    @OneToOne(targetEntity = VKSavedItemEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "track_id")
+    @OneToOne(mappedBy = "vkTrackToLike", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private VKSavedItemEntity savedItem;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private VKLikeTracksSuboperationEntity likeTracksSuboperation;
@@ -40,6 +39,8 @@ public class VKTrackToLikeEntity {
         this.id = id;
         this.liked = liked;
         this.savedItem = savedItem;
+
+        this.savedItem.setVkTrackToLike(this);
     }
 
     public VKTrackToLikeDTO dto() {

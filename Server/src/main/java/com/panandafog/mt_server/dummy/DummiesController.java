@@ -22,11 +22,11 @@ public class DummiesController {
 
     @PostMapping(value = "/save")
     public String addOrUpdateDummy(@RequestBody Dummy dummy) {
-        try {
+//        try {
             service.save(dummy);
-        } catch (DataIntegrityViolationException ex) {
-            return "Already exists.";
-        }
+//        } catch (DataIntegrityViolationException ex) {
+//            return "Already exists.";
+//        }
         return "Success!";
     }
 }

@@ -16,6 +16,7 @@ public class DummiesService {
     }
 
     public void save(Dummy dummy) {
+        dummy.getChildren().forEach(c -> c.setDummy(dummy));
         repository.save(dummy);
     }
 

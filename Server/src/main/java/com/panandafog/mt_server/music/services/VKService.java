@@ -34,15 +34,15 @@ public class VKService {
 
     private final SharedTrackRepository sharedTrackRepository;
 
-    public String saveOperation(VKAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+    public VKAddTracksOperationDTO saveOperation(VKAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
         AppUser user = userService.whoami(req);
         addTracksOperationDTO.setUser(user);
 
         VKAddTracksOperationEntity addTracksOperationEntity = addTracksOperationDTO.entity();
-
-        vkAddTracksOperationRepository.save(addTracksOperationEntity);
-
-        return "Successful";
+        VKAddTracksOperationEntity savedOperation = vkAddTracksOperationRepository.save(addTracksOperationEntity);
+        VKAddTracksOperationDTO savedDTO = savedOperation.dto();
+        savedDTO.setUser(null);
+        return savedDTO;
     }
 
     public VKAddTracksOperationDTO getOperation(Integer id, HttpServletRequest req) {

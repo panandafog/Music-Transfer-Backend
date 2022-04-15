@@ -15,7 +15,7 @@ import java.util.Date;
 public class VKAddTracksOperationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Integer id;
@@ -28,20 +28,17 @@ public class VKAddTracksOperationEntity {
     @Setter
     private Date completed;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "search_suboperation_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "addTracksOperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private VKSearchTracksSuboperationEntity searchSuboperation;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "like_suboperation_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "addTracksOperation", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
     private VKLikeTracksSuboperationEntity likeSuboperation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter
     @Setter
     private AppUser user;
