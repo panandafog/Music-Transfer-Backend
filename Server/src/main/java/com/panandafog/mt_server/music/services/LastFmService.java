@@ -1,5 +1,7 @@
 package com.panandafog.mt_server.music.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.panandafog.mt_server.authorisation.AppUser;
 import com.panandafog.mt_server.authorisation.UserService;
 import com.panandafog.mt_server.music.DTO.last_fm.*;
@@ -29,6 +31,16 @@ public class LastFmService {
 
     @Transactional
     public LastFmAddTracksOperationDTO saveOperation(LastFmAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(addTracksOperationDTO);
+            //System.out.println(json);
+        } catch (JsonProcessingException e) {
+            System.out.println("Exception during json");
+            e.printStackTrace();
+        }
+        System.out.println();
+
         AppUser user = userService.whoami(req);
         addTracksOperationDTO.setUser(user);
 
@@ -46,6 +58,6 @@ public class LastFmService {
         LastFmAddTracksOperationEntity operation = lastFmAddTracksOperationRepository.findByIdAndUser(id, user).stream().findFirst().get();
         LastFmAddTracksOperationDTO operationDTO = operation.dto();
         operationDTO.setUser(null);
-        return null;
+        return operationDTO;
     }
 }

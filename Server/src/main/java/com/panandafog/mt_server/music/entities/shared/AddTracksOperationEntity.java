@@ -1,5 +1,6 @@
 package com.panandafog.mt_server.music.entities.shared;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import java.util.Date;
         },
         resultClasses = { AddTracksOperationEntity.class }
 )
-//@Table(name = "all_operations")
+
 public class AddTracksOperationEntity {
 
     @Id
@@ -25,10 +26,12 @@ public class AddTracksOperationEntity {
 
     @Getter
     @Setter
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date started;
 
     @Getter
     @Setter
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date completed;
 
     @Getter

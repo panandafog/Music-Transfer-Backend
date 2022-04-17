@@ -1,5 +1,7 @@
 package com.panandafog.mt_server.music.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.panandafog.mt_server.authorisation.AppUser;
 import com.panandafog.mt_server.authorisation.UserService;
 import com.panandafog.mt_server.music.DTO.last_fm.LastFmAddTracksOperationDTO;
@@ -35,6 +37,17 @@ public class VKService {
     private final SharedTrackRepository sharedTrackRepository;
 
     public VKAddTracksOperationDTO saveOperation(VKAddTracksOperationDTO addTracksOperationDTO, HttpServletRequest req) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(addTracksOperationDTO);
+            System.out.println("ResultingJSONstring = " + json);
+            //System.out.println(json);
+        } catch (JsonProcessingException e) {
+            System.out.println("Exception during json");
+            e.printStackTrace();
+        }
+        System.out.println();
+
         AppUser user = userService.whoami(req);
         addTracksOperationDTO.setUser(user);
 

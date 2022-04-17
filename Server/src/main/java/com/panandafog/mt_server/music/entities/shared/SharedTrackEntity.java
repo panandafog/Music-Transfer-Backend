@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "shared_tracks")
@@ -46,9 +47,22 @@ public class SharedTrackEntity {
     private String vkOwnerID;
 
     @ElementCollection
+    @CollectionTable(name = "shared_track_artists",
+            joinColumns = {
+            @JoinColumn(name = "shared_track_id"
+                    , referencedColumnName = "id"
+                    , foreignKey=@ForeignKey(name="SHARED_TRACK_ARTIST_FK"
+                    , foreignKeyDefinition = "FOREIGN KEY (shared_track_id) references public.shared_tracks (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE"))
+    }
+    )
     @Getter
     @Setter
     private List<String> artists;
+
+//    @OneToMany(mappedBy="sharedTrack", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @Getter
+//    @Setter
+//    private Set<SharedTrackArtistEntity> artists;
 
     @Getter
     @Setter
