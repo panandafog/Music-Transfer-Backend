@@ -46,7 +46,7 @@ public class DummiesTests {
         TestUserDetails userDetails = userService.getTestUserDetails();
 
         Dummy dummy = new Dummy();
-        dummy.setId(1);
+        dummy.setId(1L);
         dummy.setName("test dummy");
 
         ObjectMapper mapper = new ObjectMapper();

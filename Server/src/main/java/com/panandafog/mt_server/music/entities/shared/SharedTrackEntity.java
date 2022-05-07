@@ -3,7 +3,6 @@ package com.panandafog.mt_server.music.entities.shared;
 import com.panandafog.mt_server.music.DTO.shared.SharedTrackDTO;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmLikeTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.last_fm.LastFmSearchedTrackEntity;
-import com.panandafog.mt_server.music.entities.last_fm.LastFmTrackToLikeEntity;
 import com.panandafog.mt_server.music.entities.vk.VKLikeTracksSuboperationEntity;
 import com.panandafog.mt_server.music.entities.vk.VKSearchedTrackEntity;
 import lombok.Getter;
@@ -12,7 +11,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "shared_tracks")
