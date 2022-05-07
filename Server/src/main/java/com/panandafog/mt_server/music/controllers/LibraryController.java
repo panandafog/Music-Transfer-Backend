@@ -24,7 +24,13 @@ public class LibraryController {
     }
 
     @GetMapping()
-    public Set<LibraryRecordDTO> getOperation(HttpServletRequest req) {
+    public Set<LibraryRecordDTO> getLibrary(HttpServletRequest req) {
         return libraryService.getLibrary(req);
+    }
+
+    @DeleteMapping()
+    public String deleteLibrary(HttpServletRequest req) {
+        libraryService.clearLibrary(req);
+        return "Success";
     }
 }

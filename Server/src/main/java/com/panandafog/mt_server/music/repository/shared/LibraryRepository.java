@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface LibraryRepository extends JpaRepository<LibraryRecordEntity, Integer> {
     List<LibraryRecordEntity> findByUser(AppUser user);
+    List<LibraryRecordEntity> deleteAllByUser(AppUser user);
 }

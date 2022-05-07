@@ -9,6 +9,7 @@ import com.panandafog.mt_server.music.entities.shared.LibraryRecordEntity;
 import com.panandafog.mt_server.music.repository.shared.LibraryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,6 +23,7 @@ public class LibraryService {
     private final UserService userService;
     private final LibraryRepository libraryRepository;
 
+    @Transactional
     public Set<LibraryRecordDTO> saveLibrary(Set<LibraryRecordDTO> libraryRecords, HttpServletRequest req) {
         AppUser user = userService.whoami(req);
 
@@ -36,6 +38,7 @@ public class LibraryService {
         return savedDTOs;
     }
 
+    @Transactional
     public Set<LibraryRecordDTO> getLibrary(HttpServletRequest req) {
         AppUser user = userService.whoami(req);
 
@@ -45,5 +48,11 @@ public class LibraryService {
         libraryRecordDTOs.forEach(dto -> dto.setUser(null));
 
         return libraryRecordDTOs;
+    }
+
+    @Transactional
+    public void clearLibrary(HttpServletRequest req) {
+        AppUser user = userService.whoami(req);
+        libraryRepository.deleteAllByUser(user);
     }
 }
